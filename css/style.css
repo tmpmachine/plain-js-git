@@ -1,0 +1,15 @@
+.d-flex{display:flex}
+.flex-column{flex-direction:column}
+.flex-wrap{flex-wrap:wrap}
+.flex-1{flex:1}
+.w-100{width:100%}
+.justify-content-between{justify-content:space-between}.justify-content-center{justify-content:center}.justify-content-end{justify-content:flex-end}
+.gap-half{gap:0.5rem}.gap-full{gap:1rem}
+
+.void{display:flex}
+.void-tenth{margin-bottom:0.1rem}.void-quarter{margin-bottom:0.25rem}.void-half{margin-bottom:0.5rem}.void-full,.void-1x{margin-bottom:1rem}.void-2x{margin-bottom:2rem}
+
+/* view utils : views initial state */
+[data-view-name] { display: none; }
+
+.obsoletes{display:none!important;height:0!important;width:0!important;overflow:hidden!important;visibility:hidden!important;position:absolute!important}

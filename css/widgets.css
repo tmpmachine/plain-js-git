@@ -1,0 +1,17 @@
+.wg-BodyDark {
+  height: 100%;
+  background: #2f2f2f;
+  color: #fafafa;
+}
+
+.ly-Centered {
+  max-width: 800px;
+  margin: auto;
+}
+
+.ly-TwoColsMain {
+  .sidebar {
+    width: 400px;
+    max-width: 100%;
+  } 
+}

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>IsoGit Demo</title>
+  <link href="css/style.css" rel="stylesheet"/>
+  <link href="css/widgets.css" rel="stylesheet"/>
+  
+</head>
+<body class="wg-BodyDark" data-view-group="features" data-view-states="">
+  
+  [ .ly-Centered
+    
+    [ .ly-TwoColsMain .d-flex .gap-full
+    
+      <!-- $sidebar # sidebar -->
+      [ .sidebar
+      
+        <!-- # file explorer -->
+        [ .d-flex .flex-column .gap-half
+          [ .d-flex .flex-column .gap-half
+            [ 
+              [btn 'Open folder' data-onclick="pick-folder"]
+              [btn 'Export' data-onclick="export-files"]
+              [btn 'Clear file system' data-onclick="clear-file-system"]
+            ]
+            [
+              [btn 'New file' data-onclick="create-file"]
+              [btn 'New folder' data-onclick="create-dir"]
+              [btn 'List dir' data-onclick="list-dir" .obsoletes]
+            ]
+          ]
+          [ .d-flex .justify-content-between
+            [
+              [small 'Current dir : ']
+              [small ._label-current-dir]
+            ]
+            [
+              [btn data-onclick="refresh-dir"
+                [small 'Refresh']
+              ]
+              [btn data-onclick="navigate-previous-dir"
+                [small 'Back']
+              ]
+            ]
+          ]
+          <!-- # file explorer list -->
+          [ #list-files .d-flex .flex-column .gap-half data-onclick="handle-click-list-files"]
+        ]
+        [ .void .void-full]
+        [hr]
+      
+        [ data-view-group="features" data-view-name-not="git"
+          [ .d-flex .justify-content-center
+            [btn 'Init git repository' data-onclick="git-init"]
+          ]
+        ]
+        
+        <!-- # commit message -->
+        [ data-view-group="features" data-view-name="git"
+          [ .d-flex .flex-column .gap-half
+            [t type="text" placeholder="Commit message" rows="5" #_inCommitMsg]
+            [btn 'Commit' data-onclick="git-commit"]
+          ]
+        ]
+        [ .void .void-full]
+        [hr]
+        
+        
+        <!-- # staging -->
+        [ data-view-group="features" data-view-name="git"
+          <!-- # staging toolbar -->
+          [ .d-flex .justify-content-end
+            [btn 'Add' data-onclick="git-add" .obsoletes]
+            [btn 'Status' data-onclick="git-status" .obsoletes]
+            
+            [btn 'Refresh' data-onclick="git-reload-status"]
+          ]
+          [ .void .void-half]
+          
+          <!-- # staged changes -->
+          [ .d-flex .justify-content-between
+            [small 'Staged Changes']
+          ]
+          <!-- # list files git staged changes -->
+          [ .d-flex .flex-column .gap-half data-onclick="handle-click-list-git-files" ._listGitFiles]
+          [ .void .void-half]
+          
+          <!-- # changes -->
+          [ .d-flex .justify-content-between
+            [small 'Changes']
+            [btn 'Discard all' data-onclick="discard-all-changes"]
+          ]
+          [ .void .void-half]
+          <!-- # list files git changes -->
+          [ .d-flex .flex-column .gap-half data-onclick="handle-click-list-git-files" ._listGitFilesChanges]
+        ]
+        [ .void .void-full]
+        [hr]
+        
+        <!-- # branch -->
+        [ data-view-group="features" data-view-name="git"
+          [ .d-flex .flex-wrap .gap-half
+            [btn 'Get active branch' data-onclick="get-active-branch"]
+            [btn 'List branch' data-onclick="list-branch"]
+            [btn 'Checkout' data-onclick="checkout"]
+            [btn 'Create Branch' data-onclick="create-branch"]
+          ]
+        ]
+        [ .void .void-full]
+        [hr]
+        
+        <!-- # commits -->
+        [ data-view-group="features" data-view-name="git"
+          [ .d-flex .justify-content-between
+            [small 'Commits']
+            [btn 'Refresh' data-onclick="reload-git-logs"]
+          ]
+          <!-- # list commits -->
+          [ ._listGitCommits]
+        ]
+        
+        [ .obsoletes 
+          [btn 'Update a file' data-onclick="update-file"]
+          [btn 'Get file' data-onclick="get-file"]
+          [btn 'Get diff' data-onclick="get-diff"]
+          [btn 'Clone Single Commit' data-onclick="clone-single-commit" disabled .obsoletes]
+        ]
+        
+      ]
+      <!-- $sidebar -->
+      
+      
+      <!-- $right # editor -->
+      [ .flex-1 .d-flex
+          
+        <!-- # simple editor -->
+        [t ._editor .w-100 .obsoletes]
+         
+      ]
+      <!-- $right -->
+    
+    ]
+     
+  ]
+  
+  
+  <!-- # list files -->
+  <template id="tmp-list-files">
+    [ .d-flex .justify-content-between data-kind="item" data-view-group="fileItem" data-view-states=""
+      [ data-slot="fileName"]
+      [
+        [btn '/' data-action="changeDir" data-view-group="fileItem" data-view-name="isFolder"]
+        [btn 'Edit' data-action="edit" data-view-group="fileItem" data-view-name="isFile"]
+        [btn 'Move' data-action="move"]
+        [btn 'Rename' data-action="rename"]
+        [btn 'x' data-action="delete"]
+      ]
+    ]
+  </template>
+  <!-- # list git commit -->
+  <template id="tmp-list-git-commit">
+    [ .d-flex .justify-content-between
+      [ data-slot="message"]
+    ]
+  </template>
+  <!-- # list git files -->
+  <template id="tmp-list-git-files">
+    [ .d-flex .justify-content-between .gap-half data-kind="item" data-view-group="fileGitItem" data-view-states=""
+      [ .d-flex .justify-content-between .flex-1
+        [ data-slot="filePath"]
+        [ data-slot="status"]
+      ]
+      [
+        [btn 'Add' data-action="git-add"]
+        [btn 'Unstage' data-action="git-unstage"]
+        [btn 'Discard' data-action="git-discard-changes"]
+      ]
+    ]
+  </template>
+  
+  <script src="https://cdn.jsdelivr.net/gh/tmpmachine/templateslot.js@v1.0.2/templateslot.min.js"></script>
+  <script src="https://unpkg.com/@isomorphic-git/lightning-fs"></script>
+  <script src="https://unpkg.com/isomorphic-git"></script>
+  <script src="index.js" type="module"></script>
+  <script src="tests.js" type="module"></script>
+  
+</body>
+</html>

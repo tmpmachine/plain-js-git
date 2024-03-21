@@ -1,0 +1,1 @@
+[1] https://github.com/isomorphic-git/isomorphic-git/issues/1042

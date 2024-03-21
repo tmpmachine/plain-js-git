@@ -1,0 +1,82 @@
+<script>
+
+  await git.readCommit({ fs, dir: '/tutorial', oid: '0497f9ac263d4fcf9d2c4c1ca7d798893c543442' })
+  
+  
+  let commitTree = await git.readTree({
+      fs,
+      dir: '/tutorial',
+      oid: ''
+  })
+  
+  
+  commitTree .tree.forEach(async x => {
+  
+      let {blob} = await git.readBlob({
+        fs,
+        dir: '/tutorial',
+        oid: '55e56c75fd4c5332b2db34ed0a1160f3dfd620fd',
+        filepath: x.path
+      })
+  let decoder = new TextDecoder('utf-8');
+      let content = decoder.decode(blob);
+      tests.appendGitTree(x.path, content)
+      
+  })
+  
+</script>
+
+
+<script>
+ 
+ // limit check
+   fetch(
+      'https://api.github.com/rate_limit', {
+          method:'GET',
+          headers:{
+            'Authorization':'token '+token
+          }
+      })
+	  .then(result => result.json())
+	  .then(json => {
+	  	rateLimit = json.rate.remaining;
+	  });
+  
+// get the URL to this repo, but with username/password (for basic auth)
+function getAuthUrl (repoUrl, login, token) {
+  const u = new URL(repoUrl)
+  u.username = login
+  u.password = token 
+  return u.toString()
+}
+
+
+   // Push to the repository
+  try {
+    await git.push({
+        fs,
+        http,
+        // force: true,
+  corsProxy: 'https://cors.isomorphic-git.org',
+      url: getAuthUrl('https://github.com/sb7cmp/practice', 'sb7cmp', ''),
+      ref: 'master', // Replace with the branch you want to push to
+        dir: '/tutorial',
+    });
+
+  } catch (error) {
+    console.error('Push failed:', error);
+  }
+</script>
+  
+  
+  git.addRemote({
+  fs,
+  dir: '/tutorial',
+  remote: 'upstream',
+  url: 'https://github.com/sb7cmp/practice'
+})
+console.log('done')
+
+
+remotes = await git.listRemotes({ fs, dir: '/tutorial' })
+console.log(remotes)
