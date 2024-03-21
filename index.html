@@ -9,174 +9,174 @@
 </head>
 <body class="wg-BodyDark" data-view-group="features" data-view-states="">
   
-  [ .ly-Centered
+  <div class="ly-Centered">
     
-    [ .ly-TwoColsMain .d-flex .gap-full
+    <div class="ly-TwoColsMain d-flex gap-full">
     
       <!-- $sidebar # sidebar -->
-      [ .sidebar
+      <div class="sidebar">
       
         <!-- # file explorer -->
-        [ .d-flex .flex-column .gap-half
-          [ .d-flex .flex-column .gap-half
-            [ 
-              [btn 'Open folder' data-onclick="pick-folder"]
-              [btn 'Export' data-onclick="export-files"]
-              [btn 'Clear file system' data-onclick="clear-file-system"]
-            ]
-            [
-              [btn 'New file' data-onclick="create-file"]
-              [btn 'New folder' data-onclick="create-dir"]
-              [btn 'List dir' data-onclick="list-dir" .obsoletes]
-            ]
-          ]
-          [ .d-flex .justify-content-between
-            [
-              [small 'Current dir : ']
-              [small ._label-current-dir]
-            ]
-            [
-              [btn data-onclick="refresh-dir"
-                [small 'Refresh']
-              ]
-              [btn data-onclick="navigate-previous-dir"
-                [small 'Back']
-              ]
-            ]
-          ]
+        <div class="d-flex flex-column gap-half">
+          <div class="d-flex flex-column gap-half">
+            <div>
+              <button data-onclick="pick-folder">Open folder</button>
+              <button data-onclick="export-files">Export</button>
+              <button data-onclick="clear-file-system">Clear file system</button>
+            </div>
+            <div>
+              <button data-onclick="create-file">New file</button>
+              <button data-onclick="create-dir">New folder</button>
+              <button class="obsoletes" data-onclick="list-dir">List dir</button>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <small>Current dir : </small>
+              <small class="_label-current-dir"></small>
+            </div>
+            <div>
+              <button data-onclick="refresh-dir">
+                <small>Refresh</small>
+              </button>
+              <button data-onclick="navigate-previous-dir">
+                <small>Back</small>
+              </button>
+            </div>
+          </div>
           <!-- # file explorer list -->
-          [ #list-files .d-flex .flex-column .gap-half data-onclick="handle-click-list-files"]
-        ]
-        [ .void .void-full]
-        [hr]
+          <div id="list-files" class="d-flex flex-column gap-half" data-onclick="handle-click-list-files"></div>
+        </div>
+        <div class="void void-full"></div>
+        <hr/>
       
-        [ data-view-group="features" data-view-name-not="git"
-          [ .d-flex .justify-content-center
-            [btn 'Init git repository' data-onclick="git-init"]
-          ]
-        ]
+        <div data-view-group="features" data-view-name-not="git">
+          <div class="d-flex justify-content-center">
+            <button data-onclick="git-init">Init git repository</button>
+          </div>
+        </div>
         
         <!-- # commit message -->
-        [ data-view-group="features" data-view-name="git"
-          [ .d-flex .flex-column .gap-half
-            [t type="text" placeholder="Commit message" rows="5" #_inCommitMsg]
-            [btn 'Commit' data-onclick="git-commit"]
-          ]
-        ]
-        [ .void .void-full]
-        [hr]
+        <div data-view-group="features" data-view-name="git">
+          <div class="d-flex flex-column gap-half">
+            <textarea id="_inCommitMsg" type="text" placeholder="Commit message" rows="5"></textarea>
+            <button data-onclick="git-commit">Commit</button>
+          </div>
+        </div>
+        <div class="void void-full"></div>
+        <hr/>
         
         
         <!-- # staging -->
-        [ data-view-group="features" data-view-name="git"
+        <div data-view-group="features" data-view-name="git">
           <!-- # staging toolbar -->
-          [ .d-flex .justify-content-end
-            [btn 'Add' data-onclick="git-add" .obsoletes]
-            [btn 'Status' data-onclick="git-status" .obsoletes]
+          <div class="d-flex justify-content-end">
+            <button class="obsoletes" data-onclick="git-add">Add</button>
+            <button class="obsoletes" data-onclick="git-status">Status</button>
             
-            [btn 'Refresh' data-onclick="git-reload-status"]
-          ]
-          [ .void .void-half]
+            <button data-onclick="git-reload-status">Refresh</button>
+          </div>
+          <div class="void void-half"></div>
           
           <!-- # staged changes -->
-          [ .d-flex .justify-content-between
-            [small 'Staged Changes']
-          ]
+          <div class="d-flex justify-content-between">
+            <small>Staged Changes</small>
+          </div>
           <!-- # list files git staged changes -->
-          [ .d-flex .flex-column .gap-half data-onclick="handle-click-list-git-files" ._listGitFiles]
-          [ .void .void-half]
+          <div class="d-flex flex-column gap-half _listGitFiles" data-onclick="handle-click-list-git-files"></div>
+          <div class="void void-half"></div>
           
           <!-- # changes -->
-          [ .d-flex .justify-content-between
-            [small 'Changes']
-            [btn 'Discard all' data-onclick="discard-all-changes"]
-          ]
-          [ .void .void-half]
+          <div class="d-flex justify-content-between">
+            <small>Changes</small>
+            <button data-onclick="discard-all-changes">Discard all</button>
+          </div>
+          <div class="void void-half"></div>
           <!-- # list files git changes -->
-          [ .d-flex .flex-column .gap-half data-onclick="handle-click-list-git-files" ._listGitFilesChanges]
-        ]
-        [ .void .void-full]
-        [hr]
+          <div class="d-flex flex-column gap-half _listGitFilesChanges" data-onclick="handle-click-list-git-files"></div>
+        </div>
+        <div class="void void-full"></div>
+        <hr/>
         
         <!-- # branch -->
-        [ data-view-group="features" data-view-name="git"
-          [ .d-flex .flex-wrap .gap-half
-            [btn 'Get active branch' data-onclick="get-active-branch"]
-            [btn 'List branch' data-onclick="list-branch"]
-            [btn 'Checkout' data-onclick="checkout"]
-            [btn 'Create Branch' data-onclick="create-branch"]
-          ]
-        ]
-        [ .void .void-full]
-        [hr]
+        <div data-view-group="features" data-view-name="git">
+          <div class="d-flex flex-wrap gap-half">
+            <button data-onclick="get-active-branch">Get active branch</button>
+            <button data-onclick="list-branch">List branch</button>
+            <button data-onclick="checkout">Checkout</button>
+            <button data-onclick="create-branch">Create Branch</button>
+          </div>
+        </div>
+        <div class="void void-full"></div>
+        <hr/>
         
         <!-- # commits -->
-        [ data-view-group="features" data-view-name="git"
-          [ .d-flex .justify-content-between
-            [small 'Commits']
-            [btn 'Refresh' data-onclick="reload-git-logs"]
-          ]
+        <div data-view-group="features" data-view-name="git">
+          <div class="d-flex justify-content-between">
+            <small>Commits</small>
+            <button data-onclick="reload-git-logs">Refresh</button>
+          </div>
           <!-- # list commits -->
-          [ ._listGitCommits]
-        ]
+          <div class="_listGitCommits"></div>
+        </div>
         
-        [ .obsoletes 
-          [btn 'Update a file' data-onclick="update-file"]
-          [btn 'Get file' data-onclick="get-file"]
-          [btn 'Get diff' data-onclick="get-diff"]
-          [btn 'Clone Single Commit' data-onclick="clone-single-commit" disabled .obsoletes]
-        ]
+        <div class="obsoletes">
+          <button data-onclick="update-file">Update a file</button>
+          <button data-onclick="get-file">Get file</button>
+          <button data-onclick="get-diff">Get diff</button>
+          <button class="obsoletes" data-onclick="clone-single-commit" disabled>Clone Single Commit</button>
+        </div>
         
-      ]
+      </div>
       <!-- $sidebar -->
       
       
       <!-- $right # editor -->
-      [ .flex-1 .d-flex
+      <div class="flex-1 d-flex">
           
         <!-- # simple editor -->
-        [t ._editor .w-100 .obsoletes]
+        <textarea class="_editor w-100 obsoletes"></textarea>
          
-      ]
+      </div>
       <!-- $right -->
     
-    ]
+    </div>
      
-  ]
+  </div>
   
   
   <!-- # list files -->
   <template id="tmp-list-files">
-    [ .d-flex .justify-content-between data-kind="item" data-view-group="fileItem" data-view-states=""
-      [ data-slot="fileName"]
-      [
-        [btn '/' data-action="changeDir" data-view-group="fileItem" data-view-name="isFolder"]
-        [btn 'Edit' data-action="edit" data-view-group="fileItem" data-view-name="isFile"]
-        [btn 'Move' data-action="move"]
-        [btn 'Rename' data-action="rename"]
-        [btn 'x' data-action="delete"]
-      ]
-    ]
+    <div class="d-flex justify-content-between" data-kind="item" data-view-group="fileItem" data-view-states="">
+      <div data-slot="fileName"></div>
+      <div>
+        <button data-action="changeDir" data-view-group="fileItem" data-view-name="isFolder">/</button>
+        <button data-action="edit" data-view-group="fileItem" data-view-name="isFile">Edit</button>
+        <button data-action="move">Move</button>
+        <button data-action="rename">Rename</button>
+        <button data-action="delete">x</button>
+      </div>
+    </div>
   </template>
   <!-- # list git commit -->
   <template id="tmp-list-git-commit">
-    [ .d-flex .justify-content-between
-      [ data-slot="message"]
-    ]
+    <div class="d-flex justify-content-between">
+      <div data-slot="message"></div>
+    </div>
   </template>
   <!-- # list git files -->
   <template id="tmp-list-git-files">
-    [ .d-flex .justify-content-between .gap-half data-kind="item" data-view-group="fileGitItem" data-view-states=""
-      [ .d-flex .justify-content-between .flex-1
-        [ data-slot="filePath"]
-        [ data-slot="status"]
-      ]
-      [
-        [btn 'Add' data-action="git-add"]
-        [btn 'Unstage' data-action="git-unstage"]
-        [btn 'Discard' data-action="git-discard-changes"]
-      ]
-    ]
+    <div class="d-flex justify-content-between gap-half" data-kind="item" data-view-group="fileGitItem" data-view-states="">
+      <div class="d-flex justify-content-between flex-1">
+        <div data-slot="filePath"></div>
+        <div data-slot="status"></div>
+      </div>
+      <div>
+        <button data-action="git-add">Add</button>
+        <button data-action="git-unstage">Unstage</button>
+        <button data-action="git-discard-changes">Discard</button>
+      </div>
+    </div>
   </template>
   
   <script src="https://cdn.jsdelivr.net/gh/tmpmachine/templateslot.js@v1.0.2/templateslot.min.js"></script>
