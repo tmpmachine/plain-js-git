@@ -40,6 +40,7 @@ export let compoGit = (function() {
     MODIFIED_STAGED_CHANGES: 's11',
     ADDED_DELETED: 's12',
     DELETED_UNTRACKED: 's13',
+    MODIFIED_MODIFIED: 's14',
   };
   
   Object.defineProperty(SELF, 'statusMatrix', {
@@ -130,6 +131,7 @@ export let compoGit = (function() {
       case statusMatrix.DELETED_MODIFIED:
       case statusMatrix.MODIFIED_STAGED_CHANGES:
       case statusMatrix.ADDED_STAGED_CHANGES:
+      case statusMatrix.MODIFIED_MODIFIED:
         return 'M';
       case statusMatrix.ADDED_STAGED:
         return 'A';
@@ -156,6 +158,7 @@ export let compoGit = (function() {
       [1, 0, 3, statusMatrix.MODIFIED_DELETED],
       [1, 1, 0, statusMatrix.DELETED_UNTRACKED],
       [1, 1, 1, statusMatrix.UNMODIFIED],
+      [1, 1, 3, statusMatrix.MODIFIED_MODIFIED],
       [1, 2, 0, statusMatrix.DELETED_MODIFIED],
       [1, 2, 1, statusMatrix.MODIFIED_UNSTAGED],
       [1, 2, 2, statusMatrix.MODIFIED_STAGED],

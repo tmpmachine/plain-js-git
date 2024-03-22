@@ -164,7 +164,7 @@ export let uiGit = (function() {
     
     if (gitState == compoGit.statusMatrix.UNTRACKED) { // remove untracked file
       await compoFile.TaskUnlinkFileAtPath('/' + filePath);
-    } else if (gitState == compoGit.statusMatrix.MODIFIED_STAGED_CHANGES || gitState == compoGit.statusMatrix.ADDED_STAGED_CHANGES || gitState == compoGit.statusMatrix.ADDED_DELETED) { // restore content from from index
+    } else if (gitState == compoGit.statusMatrix.MODIFIED_STAGED_CHANGES || gitState == compoGit.statusMatrix.ADDED_STAGED_CHANGES || gitState == compoGit.statusMatrix.ADDED_DELETED || gitState == compoGit.statusMatrix.MODIFIED_MODIFIED) { // restore content from from index
       await compoGit.TaskCheckoutFromIndex(filePath);
     } else {
       await compoGit.TaskDiscardChanges(data.fileName);
@@ -240,7 +240,7 @@ export let uiGit = (function() {
       DOMUtils.SetData(itemEl, 'gitState', status);
       
       
-      if (status == compoGit.statusMatrix.MODIFIED_STAGED_CHANGES || status == compoGit.statusMatrix.ADDED_STAGED_CHANGES || status == compoGit.statusMatrix.ADDED_DELETED || status == compoGit.statusMatrix.DELETED_UNTRACKED) {
+      if (status == compoGit.statusMatrix.MODIFIED_STAGED_CHANGES || status == compoGit.statusMatrix.ADDED_STAGED_CHANGES || status == compoGit.statusMatrix.ADDED_DELETED || status == compoGit.statusMatrix.DELETED_UNTRACKED || status == compoGit.statusMatrix.MODIFIED_MODIFIED) {
       
         docFrag.append(el.cloneNode(true));
         docFragChanges.append(el.cloneNode(true));
