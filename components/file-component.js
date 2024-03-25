@@ -22,6 +22,7 @@ export let compoFile = (function() {
     TaskRemoveDir,
     TaskMoveFile,
     TaskMoveDir,
+    TaskListDirWithType,
     task: {
       listDirWithType: TaskListDirWithType,
       listDir: TaskListDir,
@@ -50,14 +51,20 @@ export let compoFile = (function() {
   }
   
   async function TaskImportToFS(dirHandle, dir = '/') {
+    
+    // do not create file/folder using File System Access API
+    let fsOptions = {
+      isFSAccessReadOnly: true,
+    };
+    
     for await (const entry of dirHandle.values()) {
       if (entry.kind == 'file') {
         const file = await entry.getFile();
         const fileContent = await file.arrayBuffer();
-        await fs.promises.writeFile(dir + entry.name, fileContent);
+        await fs.promises.writeFile(dir + entry.name, fileContent, fsOptions);
       } else if (entry.kind == 'directory') {
         let dirPath = dir + entry.name + '/';
-        await fs.promises.mkdir(dirPath);
+        await fs.promises.mkdir(dirPath, fsOptions);
         await TaskImportToFS(entry, dirPath);
       }
     }
@@ -177,9 +184,6 @@ export let compoFile = (function() {
       const stats = await local.fs.promises.stat(entryPath);
       if (stats.isDirectory()) {
         await TaskRemoveDir(entryPath);
-        /*try {
-          await local.fs.promises.rmdir(entryPath); // Delete the empty dir itself
-        } catch (e) { console.error(e); }*/
       } else {
         try {
           await local.fs.promises.unlink(entryPath); // Delete file
@@ -206,13 +210,13 @@ export let compoFile = (function() {
         const newDirectoryHandle = await dirHandle.getDirectoryHandle(entry, {
           create: true,
         });
-        MigrateToFileSystem(newDirectoryHandle, entryPath)
+        MigrateToFileSystem(newDirectoryHandle, entryPath);
       } else {
         // In this new directory, create a file named "My Notes.txt".
         const newFileHandle = await dirHandle.getFileHandle(entry, { create: true });
         let isBlob = true;
         let blob = await TaskReadFileContent(entryPath, isBlob);
-        writeFile(newFileHandle, blob)
+        writeFile(newFileHandle, blob);
       }
       
     }
@@ -263,6 +267,7 @@ export let compoFile = (function() {
     let currentPath = GetCurrentPath();
     const entries = await local.fs.promises.readdir(currentPath, { withFileTypes: true });
     let items = [];
+    
     for (const entry of entries) {
       
       // skip .git folder
@@ -274,16 +279,77 @@ export let compoFile = (function() {
       items.push({
         type,
         fileName: entry,
+        filePath: getFilePath(entry),
       });
     }
+    
     return items;
   }
     
   function Init() {
-    local.fs = new LightningFS('fs', {
-      // wipe: true, // start with an empty filesystem on each page load
+    let lfs = new LightningFS('fs', {
+      wipe: true, // start with an empty filesystem on each page load
     });
-    fs = local.fs;
+    
+    let lfsHybrid = {
+      ...lfs,
+      promises: {
+        ...lfs.promises,
+        writeFile: null,
+      },
+    };
+    
+    // fs method overwrite
+    {
+      let verbose = true;
+      
+      lfsHybrid.promises.writeFile = async (filepath, data, opts) => {
+        if (verbose) console.log('writeFile');
+        
+        await lfs.promises.writeFile(filepath, data, opts);
+        if (!opts?.isFSAccessReadOnly) {
+          await compoFSA.CreateFile(filepath, data);
+        }
+      };
+      lfsHybrid.promises.unlink = async (filepath, opts) => {
+        if (verbose) console.log('unlink');
+        
+        await lfs.promises.unlink(filepath, opts);
+        await compoFSA.DeleteFile(filepath);
+      };
+      lfsHybrid.promises.mkdir = async (filepath, opts) => {
+        if (verbose) console.log('make dir');
+        
+        await lfs.promises.mkdir(filepath, opts);
+        if (!opts?.isFSAccessReadOnly) {
+          await compoFSA.CreateDir(filepath);
+        }
+      };
+      lfsHybrid.promises.rmdir = async (filepath, opts) => {
+        if (verbose) console.log('remove dir');
+        
+        await lfs.promises.rmdir(filepath, opts);
+        await compoFSA.DeleteDir(filepath);
+      };
+      lfsHybrid.promises.rename = async (oldEntryPath, newEntryPath) => {
+        if (verbose) console.log('rename');
+        
+        let entryStat = await fs.promises.stat(oldEntryPath);
+        
+        await lfs.promises.rename(oldEntryPath, newEntryPath);
+  
+        if (entryStat.type == 'dir') {
+          await compoFSA.RenameFolder(oldEntryPath, newEntryPath);
+        } else {
+          await compoFSA.RenameFile(oldEntryPath, newEntryPath);
+        }
+        
+      };
+    }
+    
+    local.fs = lfsHybrid;
+    fs = lfsHybrid;
+    
   }
   
   function GetFS() {

@@ -58,7 +58,6 @@ export let ui = (function() {
     
     await compoFile.TaskCreateDir(userVal);
     uiFileExplorer.RefreshFiles();
-    console.log('Directory created successfully');
   }
   
   function Init() {

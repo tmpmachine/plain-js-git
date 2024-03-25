@@ -34,6 +34,7 @@ export let uiFileExplorer = (function() {
     let data = {
       fileName: itemEl.dataset.fileName,
       fileType: itemEl.dataset.fileType,
+      filePath: itemEl.dataset.filePath,
     };
     
     handleClickActions(action, data);
@@ -41,6 +42,7 @@ export let uiFileExplorer = (function() {
   
   async function PickFolder() {
     const dirHandle = await window.showDirectoryPicker();
+    compoFSA.SetDirHandle(dirHandle);
     await compoFile.TaskImportToFS(dirHandle);
     
     RefreshFiles();
@@ -90,7 +92,13 @@ export let uiFileExplorer = (function() {
     let isConfirm = window.confirm('Are you sure?');
     if (!isConfirm) return;
     
-    await compoFile.TaskRemoveFile(data.fileName);
+    let { fileType } = data;
+    
+    if (fileType == 'folder') {
+      await compoFile.TaskRemoveDir(data.filePath);
+    } else {
+      await compoFile.TaskRemoveFile(data.fileName);
+    }
     
     uiFileExplorer.RefreshFiles();
     uiGit.ReloadGitFileStatus();
@@ -108,7 +116,7 @@ export let uiFileExplorer = (function() {
   }
   
   async function RefreshFiles() {
-    let items = await compoFile.task.listDirWithType();
+    let items = await compoFile.TaskListDirWithType();
     
     let container = $('#list-files');
     container.innerHTML = '';
@@ -127,6 +135,7 @@ export let uiFileExplorer = (function() {
       
       DOMUtils.SetData(itemEl, 'fileName', item.fileName);
       DOMUtils.SetData(itemEl, 'fileType', item.type);
+      DOMUtils.SetData(itemEl, 'filePath', item.filePath);
       
       if (item.type == 'file') {
         viewStateUtil.Add('fileItem', ['isFile'], itemEl);
