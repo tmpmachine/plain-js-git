@@ -61,8 +61,6 @@ export let compoFile = (function() {
     // non .git files
     for await (const entry of dirHandle.values()) {
       
-      if (entry.name == '.git') continue;
-      
       if (entry.kind == 'file') {
         const file = await entry.getFile();
         const fileContent = await file.arrayBuffer();

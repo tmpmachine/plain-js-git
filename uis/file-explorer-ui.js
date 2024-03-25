@@ -44,7 +44,7 @@ export let uiFileExplorer = (function() {
     const dirHandle = await window.showDirectoryPicker();
     compoFSA.SetDirHandle(dirHandle);
     await compoFile.TaskImportToFS(dirHandle);
-    await compoFile.TaskFindAndReadGitFiles(dirHandle);
+    // await compoFile.TaskFindAndReadGitFiles(dirHandle);
     
     RefreshFiles();
     uiGit.ReloadGitFileStatus();

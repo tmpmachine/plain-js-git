@@ -188,7 +188,7 @@ export let uiGit = (function() {
     } else if (gitState == compoGit.statusMatrix.MODIFIED_STAGED_CHANGES || gitState == compoGit.statusMatrix.ADDED_STAGED_CHANGES || gitState == compoGit.statusMatrix.ADDED_DELETED || gitState == compoGit.statusMatrix.MODIFIED_MODIFIED) { // restore content from from index
       await compoGit.TaskCheckoutFromIndex(filePath);
     } else {
-      await compoGit.TaskDiscardChanges(data.fileName);
+      await compoGit.TaskDiscardChanges(filePath);
     }
   }
   
