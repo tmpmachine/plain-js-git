@@ -1,5 +1,5 @@
 # plain-js-git
-PWA, minimal git client for the web using [isomorphic-git](https://isomorphic-git.org/), with [File System Access API](https://developer.chrome.com/docs/capabilities/web-apis/file-system-access) functionality. Remote actions are not included (e.g. clone, push, pull).
+Minimal online git client for the web using [isomorphic-git](https://isomorphic-git.org/), with [File System Access API](https://developer.chrome.com/docs/capabilities/web-apis/file-system-access) functionality. Remote actions are not included (e.g. clone, push, pull).
 
 Useful for quickly managing local git repository where git client is not installed or loading IDE with integrated git client takes time (e.g. VSCode on low-end laptops).
 
