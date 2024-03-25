@@ -1,7 +1,10 @@
+// UIs
 import { ui } from './ui.js';
 import { uiGit } from './uis/git-ui.js';
 import { uiFileExplorer } from './uis/file-explorer-ui.js';
+import { uiEditor } from './uis/editor-ui.js';
 
+// Components
 import { compoGit } from './components/git-component.js';
 import { compoFile } from './components/file-component.js';
 import { compoFSA } from './components/fsa-component.js';
@@ -16,6 +19,7 @@ window.token = '';
 window.ui = ui;
 window.uiGit = uiGit;
 window.uiFileExplorer = uiFileExplorer;
+window.uiEditor = uiEditor;
 
 // components
 window.compoFile = compoFile;

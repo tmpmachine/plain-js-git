@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html class="ly-FullHeight">
 <head>
 
-  <title>IsoGit Demo</title>
+  <title>PlainJS Git</title>
   <link href="css/style.css" rel="stylesheet"/>
   <link href="css/widgets.css" rel="stylesheet"/>
+  <meta name="viewport" content="width=device-width"/>
   
 </head>
 <body class="wg-BodyDark" data-view-group="features" data-view-states="">
   
-  <div class="ly-Centered">
+  <div class="ly-Centered h-100 ov-hidden">
     
-    <div class="ly-TwoColsMain d-flex gap-full">
+    <div class="ly-TwoColsMain d-flex gap-full h-100 ov-hidden">
     
       <!-- $sidebar # sidebar -->
-      <div class="sidebar">
+      <div class="sidebar h-100 ov-auto p-full">
       
         <!-- # file explorer -->
         <div class="d-flex flex-column gap-half">
@@ -131,11 +132,11 @@
       <!-- $sidebar -->
       
       
-      <!-- $right # editor -->
-      <div class="flex-1 d-flex">
+      <!-- $right # widget editor -->
+      <div class="flex-1 d-flex wg-Editor pos-relative">
           
         <!-- # simple editor -->
-        <textarea class="_editor w-100 obsoletes"></textarea>
+        <div class="_editorContainer editor-container pos-absolute w-100 h-100"></div>
          
       </div>
       <!-- $right -->
@@ -166,6 +167,7 @@
   </template>
   <!-- # list git files -->
   <template id="tmp-list-git-files">
+    <!-- tmp-list-git-files -->
     <div class="d-flex justify-content-between gap-half" data-kind="item" data-view-group="fileGitItem" data-view-states="">
       <div class="d-flex justify-content-between flex-1">
         <div data-slot="filePath"></div>
@@ -175,6 +177,7 @@
         <button data-action="git-add">Add</button>
         <button data-action="git-unstage">Unstage</button>
         <button data-action="git-discard-changes">Discard</button>
+        <button data-action="git-diff">Diff</button>
       </div>
     </div>
   </template>
@@ -182,6 +185,7 @@
   <script src="https://cdn.jsdelivr.net/gh/tmpmachine/templateslot.js@v1.0.2/templateslot.min.js"></script>
   <script src="https://unpkg.com/@isomorphic-git/lightning-fs"></script>
   <script src="https://unpkg.com/isomorphic-git"></script>
+  <script src="https://unpkg.com/monaco-editor@0.47.0/min/vs/loader.js"></script>
   <script src="index.js" type="module"></script>
   <script src="tests.js" type="module"></script>
   

@@ -16,7 +16,28 @@ export let uiGit = (function() {
       case 'git-add': taskGitAddFile(data); break;
       case 'git-unstage': taskGitRemoveFile(data); break;
       case 'git-discard-changes': taskGitDiscardChanges(data); break;
+      case 'git-diff': taskDiff(data); break;
     }
+  }
+  
+  async function taskDiff(data) {
+    await uiEditor.TaskInitEditor();
+
+    let originalContent = '';
+    let modifiedContent = '';
+    
+    if (data.gitState == compoGit.statusMatrix.MODIFIED_UNSTAGED) {
+      let fileContents = await compoGit.GetStagedFileContents('/', [data.filePath]);
+      let decoder = new TextDecoder('utf-8');
+      let content = decoder.decode(fileContents[0].contents);
+
+      originalContent = content.toString('utf-8');
+      modifiedContent = await compoFile.TaskReadFileContent(data.filePath);
+    } else {
+      console.log('Git file state not recognized for diffing: ', data.gitState);
+    }
+    
+    uiEditor.Diff(originalContent, modifiedContent);
   }
   
   async function DiscardAllChanges() {

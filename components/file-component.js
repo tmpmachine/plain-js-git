@@ -23,6 +23,7 @@ export let compoFile = (function() {
     TaskMoveFile,
     TaskMoveDir,
     TaskListDirWithType,
+    TaskFindAndReadGitFiles,
     task: {
       listDirWithType: TaskListDirWithType,
       listDir: TaskListDir,
@@ -57,7 +58,11 @@ export let compoFile = (function() {
       isFSAccessReadOnly: true,
     };
     
+    // non .git files
     for await (const entry of dirHandle.values()) {
+      
+      if (entry.name == '.git') continue;
+      
       if (entry.kind == 'file') {
         const file = await entry.getFile();
         const fileContent = await file.arrayBuffer();
@@ -68,6 +73,27 @@ export let compoFile = (function() {
         await TaskImportToFS(entry, dirPath);
       }
     }
+    
+  }
+  
+  async function TaskFindAndReadGitFiles(dirHandle, dir = '/') {
+    
+    // do not create file/folder using File System Access API
+    let fsOptions = {
+      isFSAccessReadOnly: true,
+    };
+    
+    // non .git files
+    for await (const entry of dirHandle.values()) {
+      if (entry.kind == 'directory') {
+        if (entry.name == '.git') {
+          let dirPath = dir + entry.name + '/';
+          await fs.promises.mkdir(dirPath, fsOptions);
+          await TaskImportToFS(entry, dirPath);
+        }
+      }
+    }
+    
   }
   
   async function TaskUpdateFile(fileName, newContent) {
@@ -113,6 +139,7 @@ export let compoFile = (function() {
 
   async function TaskReadFileContent(fileName, isBlob = false) {
     let filePath = getFilePath(fileName);
+    
     if (isBlob) {
       return await fs.promises.readFile(filePath);
     } else {
@@ -301,7 +328,7 @@ export let compoFile = (function() {
     
     // fs method overwrite
     {
-      let verbose = true;
+      let verbose = false;
       
       lfsHybrid.promises.writeFile = async (filepath, data, opts) => {
         if (verbose) console.log('writeFile');

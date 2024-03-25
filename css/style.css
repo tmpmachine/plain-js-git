@@ -2,9 +2,12 @@
 .flex-column{flex-direction:column}
 .flex-wrap{flex-wrap:wrap}
 .flex-1{flex:1}
-.w-100{width:100%}
+.w-100{width:100%}.h-100{height:100%}
 .justify-content-between{justify-content:space-between}.justify-content-center{justify-content:center}.justify-content-end{justify-content:flex-end}
 .gap-half{gap:0.5rem}.gap-full{gap:1rem}
+.p-full{padding:1rem}
+.pos-relative{position:relative}.pos-absolute{position:absolute}
+.ov-hidden{overflow:hidden}.ov-auto{overflow:auto}
 
 .void{display:flex}
 .void-tenth{margin-bottom:0.1rem}.void-quarter{margin-bottom:0.25rem}.void-half{margin-bottom:0.5rem}.void-full,.void-1x{margin-bottom:1rem}.void-2x{margin-bottom:2rem}
