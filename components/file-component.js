@@ -313,7 +313,7 @@ export let compoFile = (function() {
     
   function Init() {
     let lfs = new LightningFS('fs', {
-      wipe: true, // start with an empty filesystem on each page load
+      wipe: APP_CONFIG.isWipeFS, // start with an empty filesystem on each page load
     });
     
     let lfsHybrid = {

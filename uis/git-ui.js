@@ -193,10 +193,16 @@ export let uiGit = (function() {
   }
   
   async function Commit() {
-    let userVal = $('#_inCommitMsg')?.value;
-    if (!userVal) return;
+    let authorName = $('#_inAuthorName')?.value;
+    let authorEmail = $('#_inAuthorEmail')?.value;
+    let commitMessage = $('#_inCommitMsg')?.value;
     
-    await compoGit.TaskCommit(userVal);
+    if (!commitMessage || !authorName || !authorEmail) {
+      alert('Author name/email, message is empty');
+      return;
+    }
+    
+    await compoGit.TaskCommit(authorName, authorEmail, commitMessage);
     RefreshGitFileStatus();
     uiGit.TaskRefreshCommits();
   }

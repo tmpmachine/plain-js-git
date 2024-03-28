@@ -265,7 +265,7 @@ export let compoGit = (function() {
     await git.remove({ fs, dir: gitRepoPath, filepath: filePath });
   }
   
-  async function TaskCommit(message = '') {
+  async function TaskCommit(authorName, authorEmail, message) {
     
     let files = await TaskGetStatusMatrix();
     let allowedFileStateToCommit = [
@@ -286,8 +286,8 @@ export let compoGit = (function() {
       message,
       dir: gitRepoPath,
       author: {
-        name: 'Mr. Test',
-        email: 'mrtest@example.com',
+        name: authorName,
+        email: authorEmail,
       },
     });
   }

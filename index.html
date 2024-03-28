@@ -60,7 +60,15 @@
         <!-- # commit message -->
         <div data-view-group="features" data-view-name="git">
           <div class="d-flex flex-column gap-half">
-            <textarea id="_inCommitMsg" type="text" placeholder="Commit message" rows="5"></textarea>
+            <small>Author info:</small>
+            <div class="d-grid gap-half" style="grid-template-columns:auto 1fr;">
+              <span class="_inAuthorName">Name</span>
+              <input/>
+              <span class="_inAuthorEmail">Email</span>
+              <input/>
+            </div>
+            <small>Commit message:</small>
+            <textarea id="_inCommitMsg" type="text" rows="5"></textarea>
             <button data-onclick="git-commit">Commit</button>
           </div>
         </div>

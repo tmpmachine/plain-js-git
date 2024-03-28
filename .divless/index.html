@@ -60,7 +60,15 @@
         <!-- # commit message -->
         [ data-view-group="features" data-view-name="git"
           [ .d-flex .flex-column .gap-half
-            [t type="text" placeholder="Commit message" rows="5" #_inCommitMsg]
+            [small 'Author info:']
+            [ .d-grid {cols:auto 1fr} .gap-half
+              [s 'Name' ._inAuthorName]
+              [in]
+              [s 'Email' ._inAuthorEmail]
+              [in]
+            ]
+            [small 'Commit message:']
+            [t type="text" rows="5" #_inCommitMsg]
             [btn 'Commit' data-onclick="git-commit"]
           ]
         ]

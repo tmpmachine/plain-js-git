@@ -169,6 +169,8 @@ export let compoFSA = (function() {
   }
   
   async function CreateDir(path) {
+    if (!local.dirHandle) return;
+    
     return await EnsureCreatedDir(path);
   }
   

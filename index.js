@@ -1,4 +1,5 @@
 // UIs
+import { APP_CONFIG } from './appconfig.js';
 import { ui } from './ui.js';
 import { uiGit } from './uis/git-ui.js';
 import { uiFileExplorer } from './uis/file-explorer-ui.js';
@@ -14,6 +15,7 @@ import { viewStateUtil } from './utils/view-state-utils.js';
 
 import http from 'https://unpkg.com/isomorphic-git/http/web/index.js';
 
+window.APP_CONFIG = APP_CONFIG;
 window.token = '';
 
 window.ui = ui;
