@@ -62,13 +62,13 @@
           <div class="d-flex flex-column gap-half">
             <small>Author info:</small>
             <div class="d-grid gap-half" style="grid-template-columns:auto 1fr;">
-              <span class="_inAuthorName">Name</span>
-              <input/>
-              <span class="_inAuthorEmail">Email</span>
-              <input/>
+              <span>Name</span>
+              <input class="_inAuthorName"/>
+              <span>Email</span>
+              <input class="_inAuthorEmail"/>
             </div>
             <small>Commit message:</small>
-            <textarea id="_inCommitMsg" type="text" rows="5"></textarea>
+            <textarea class="_inCommitMsg" type="text" rows="5"></textarea>
             <button data-onclick="git-commit">Commit</button>
           </div>
         </div>
@@ -190,6 +190,7 @@
     </div>
   </template>
   
+  <script src="https://cdn.jsdelivr.net/npm/idb@8/build/umd.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/tmpmachine/templateslot.js@v1.0.2/templateslot.min.js"></script>
   <script src="https://unpkg.com/@isomorphic-git/lightning-fs"></script>
   <script src="https://unpkg.com/isomorphic-git"></script>

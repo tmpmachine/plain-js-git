@@ -193,9 +193,9 @@ export let uiGit = (function() {
   }
   
   async function Commit() {
-    let authorName = $('#_inAuthorName')?.value;
-    let authorEmail = $('#_inAuthorEmail')?.value;
-    let commitMessage = $('#_inCommitMsg')?.value;
+    let authorName = $('._inAuthorName')?.value;
+    let authorEmail = $('._inAuthorEmail')?.value;
+    let commitMessage = $('._inCommitMsg')?.value;
     
     if (!commitMessage || !authorName || !authorEmail) {
       alert('Author name/email, message is empty');
