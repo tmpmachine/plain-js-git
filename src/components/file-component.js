@@ -67,6 +67,9 @@ export let compoFile = (function() {
         await fs.promises.writeFile(dir + entry.name, fileContent, fsOptions);
       } else if (entry.kind == 'directory') {
         let dirPath = dir + entry.name + '/';
+
+        if (entry.name == 'node_modules') continue;
+
         await fs.promises.mkdir(dirPath, fsOptions);
         await TaskImportToFS(entry, dirPath);
       }
